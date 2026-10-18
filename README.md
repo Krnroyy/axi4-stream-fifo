@@ -1,5 +1,7 @@
 # AXI4-Stream FIFO: RTL, Simulation and Formal Verification
 
+[![FIFO verification](https://github.com/Krnroyy/axis-packet-fifo/actions/workflows/verify.yml/badge.svg?branch=master)](https://github.com/Krnroyy/axis-packet-fifo/actions/workflows/verify.yml)
+
 A learning project for RTL/design verification and formal verification interviews.
 The default design stores 16 beats of 32-bit data, together with 4-bit TKEEP
 and 1-bit TLAST. This is a **beat FIFO that preserves packet markers**: output
