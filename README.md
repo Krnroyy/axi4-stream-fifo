@@ -9,6 +9,23 @@ require a complete packet before output, or implement packet-level admission.
 Start with `docs/START_HERE.md`. Actual validation status is in
 `results/VALIDATION.md`; do not infer a proof from the presence of assertions.
 
+## Verification status
+
+- Simulation: 12 passing runs across FIFO depths 1, 3, 4 and 16,
+  using three reproducible seeds per depth.
+- Added directed tests for eight single-beat packets and reset
+  while an output beat is stalled.
+- Formal: 15 assertions checked under 3 assumptions for an
+  8-bit, depth-4 configuration; base checks and induction passed.
+- All 3 formal cover scenarios were reached.
+- A deliberately introduced pop-without-ready bug was detected
+  by both simulation and formal verification.
+- GitHub Actions runs simulation and formal checks on pushes
+  and pull requests, using Ubuntu 24.04.
+
+Latest local simulation evidence: `results/simulation-current.log`.
+
+
 ## Files
 
 | File | Purpose |
