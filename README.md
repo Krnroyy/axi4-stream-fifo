@@ -174,3 +174,8 @@ crossing and FPGA integration are later extensions with additional requirements.
 
 This is an educational implementation. Report only checks you personally ran
 and understand. The delivered results record what was run during creation.
+
+
+## Verification bug case study
+
+[Pop-without-ready: simulation and formal detection](docs/BUG_CASE_STUDY.md).
