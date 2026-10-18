@@ -179,3 +179,20 @@ and understand. The delivered results record what was run during creation.
 ## Verification bug case study
 
 [Pop-without-ready: simulation and formal detection](docs/BUG_CASE_STUDY.md).
+
+
+## Backpressure waveform
+
+![FIFO output held stable during backpressure](docs/images/fifo-backpressure.png)
+
+Captured from the depth-16, seed-1 simulation:
+
+- Between 25,570 and 25,620 ns, the receiver stalls with `mr=0`
+  while `mv=1`. The output payload remains stable:
+  `md=BE750F8E`, `mk=F`, and `ml=1`.
+- At 25,620 ns, the receiver raises `mr`.
+- At the rising clock edge at 25,625 ns, both `mv` and `mr`
+  are high. The beat is accepted and the output advances.
+
+This illustrates one backpressure interval. Broader verification
+results and their scope are recorded in `results/VALIDATION.md`.
