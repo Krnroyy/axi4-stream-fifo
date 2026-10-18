@@ -43,6 +43,19 @@ It is unbounded in time under the harness assumptions, for this specific
 configuration. Other widths/depths are not claimed formally proven. Event
 counters are not coverage percentages. This is not an AXI certification.
 
-Not run: optional SymbiYosys entry point, GitHub-hosted CI, Windows/WSL user
+Not run: optional SymbiYosys entry point, Windows/WSL user
 installation, Vivado implementation, timing closure, or physical board tests.
 The tested direct formal script does not require SymbiYosys.
+
+## GitHub Actions follow-up - 18 October 2026
+
+The FIFO verification workflow completed successfully on GitHub Actions.
+
+- Run: https://github.com/Krnroyy/axis-packet-fifo/actions/runs/39102374693
+- Tested commit: 8a66ad041e5f0ad6fafd27da51b8614e34e71b84
+- Conclusion: success
+
+The earlier table records the original validation environment and results.
+This CI result does not establish a separate native Windows/WSL rerun,
+FPGA implementation, timing closure, or physical board validation.
+The formal configuration and harness limitations described above still apply.
