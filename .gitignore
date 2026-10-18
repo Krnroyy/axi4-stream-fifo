@@ -1,0 +1,9 @@
+build/
+__pycache__/
+*.vcd
+formal/fifo_prove/
+formal/fifo_cover/
+
+# Local editing backups
+*.backup
+*.bak

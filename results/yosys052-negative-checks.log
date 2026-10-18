@@ -1,0 +1,31 @@
+Missing lowering: guard correctly rejects exported model
+8.1. Executing BMUXMAP pass.
+
+8.2. Executing DEMUXMAP pass.
+Creating SMT-LIBv2 representation of module fifo_formal.
+
+End of script. Logfile hash: 8624632483, CPU: user 0.14s system 0.00s
+Yosys 0.52 (git sha1 fee39a328, ccache clang 18.1.3 -O3 -flto -flto)
+Time spent: 17% 1x hierarchy (0 sec), 16% 10x opt_expr (0 sec), ...
+PROPERTY CHECK: assert=0 assume=0 cover=0
+Formal property inventory mismatch: expected {'assert': 15, 'assume': 3, 'cover': 3}; got {'assert': 0, 'assume': 0, 'cover': 0}. No proof claimed.
+
+Pop-without-ready mutant: formal correctly rejects faulty RTL
+9.1. Executing BMUXMAP pass.
+
+9.2. Executing DEMUXMAP pass.
+Creating SMT-LIBv2 representation of module fifo_formal.
+
+End of script. Logfile hash: 5e33b2995d, CPU: user 0.14s system 0.00s
+Yosys 0.52 (git sha1 fee39a328, ccache clang 18.1.3 -O3 -flto -flto)
+Time spent: 18% 1x hierarchy (0 sec), 16% 8x opt_clean (0 sec), ...
+PROPERTY CHECK: assert=15 assume=3 cover=3
+##   0:00:00  Checking assumptions in step 3..
+##   0:00:00  Checking assertions in step 3..
+##   0:00:00  Checking assumptions in step 4..
+##   0:00:00  Checking assertions in step 4..
+##   0:00:00  BMC failed!
+##   0:00:00  Assert failed in fifo_formal: rtl/sync_fifo.sv:80.17-80.49 ($flatten/dut./fifo.$assert$rtl/sync_fifo.sv:80$796)
+##   0:00:00  Assert failed in fifo_formal: rtl/sync_fifo.sv:79.17-79.33 ($flatten/dut./fifo.$assert$rtl/sync_fifo.sv:79$795)
+##   0:00:00  Status: FAILED
+base failed; inspect build/formal/base.log

@@ -1,0 +1,33 @@
+9.1. Executing BMUXMAP pass.
+
+9.2. Executing DEMUXMAP pass.
+Creating SMT-LIBv2 representation of module fifo_formal.
+
+End of script. Logfile hash: 84b32829b6, CPU: user 0.13s system 0.00s
+Yosys 0.52 (git sha1 fee39a328, ccache clang 18.1.3 -O3 -flto -flto)
+Time spent: 18% 1x hierarchy (0 sec), 16% 8x opt_clean (0 sec), ...
+PROPERTY CHECK: assert=15 assume=3 cover=3
+##   0:00:01  Checking assertions in step 26..
+##   0:00:01  Checking assumptions in step 27..
+##   0:00:01  Checking assertions in step 27..
+##   0:00:01  Checking assumptions in step 28..
+##   0:00:01  Checking assertions in step 28..
+##   0:00:01  Checking assumptions in step 29..
+##   0:00:01  Checking assertions in step 29..
+##   0:00:01  Status: PASSED
+##   0:00:00  Solver: z3
+##   0:00:00  Trying induction in step 30..
+##   0:00:00  Trying induction in step 29..
+##   0:00:00  Trying induction in step 28..
+##   0:00:00  Temporal induction successful.
+##   0:00:00  Status: PASSED
+##   0:00:00  Checking cover reachability in step 5..
+##   0:00:00  Reached cover statement at rtl/sync_fifo.sv:85.13-85.55 ($flatten/dut./fifo.$cover$rtl/sync_fifo.sv:85$810) in step 5.
+##   0:00:00  Writing trace to VCD file: build/formal/cover.vcd
+##   0:00:00  Checking cover reachability in step 5..
+##   0:00:00  Checking cover reachability in step 6..
+##   0:00:00  Reached cover statement at rtl/sync_fifo.sv:83.13-83.44 ($flatten/dut./fifo.$cover$rtl/sync_fifo.sv:83$804) in step 6.
+##   0:00:00  Writing trace to VCD file: build/formal/cover.vcd
+##   0:00:00  Status: PASSED
+COVERAGE CHECK: reached=3/3
+FORMAL PASS: base, induction, cover (DATA_WIDTH=8, DEPTH=4)

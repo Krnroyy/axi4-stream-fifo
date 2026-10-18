@@ -1,0 +1,17 @@
+##   0:00:00  Solver: z3
+##   0:00:00  Checking cover reachability in step 0..
+##   0:00:00  Checking cover reachability in step 1..
+##   0:00:00  Checking cover reachability in step 2..
+##   0:00:00  Checking cover reachability in step 3..
+##   0:00:00  Reached cover statement at rtl/sync_fifo.sv:84.13-84.41 ($flatten/dut./fifo.$cover$rtl/sync_fifo.sv:84$807) in step 3.
+##   0:00:00  Writing trace to VCD file: build/formal/cover.vcd
+##   0:00:00  Checking cover reachability in step 3..
+##   0:00:00  Checking cover reachability in step 4..
+##   0:00:00  Checking cover reachability in step 5..
+##   0:00:00  Reached cover statement at rtl/sync_fifo.sv:85.13-85.55 ($flatten/dut./fifo.$cover$rtl/sync_fifo.sv:85$810) in step 5.
+##   0:00:00  Writing trace to VCD file: build/formal/cover.vcd
+##   0:00:00  Checking cover reachability in step 5..
+##   0:00:00  Checking cover reachability in step 6..
+##   0:00:00  Reached cover statement at rtl/sync_fifo.sv:83.13-83.44 ($flatten/dut./fifo.$cover$rtl/sync_fifo.sv:83$804) in step 6.
+##   0:00:00  Writing trace to VCD file: build/formal/cover.vcd
+##   0:00:00  Status: PASSED

@@ -1,0 +1,22 @@
+simulation: expected nonzero exit, actual=1
+FATAL: tb/tb_axis_packet_fifo.sv:51: Occupancy mismatch level=0 model=1
+       Time: 75000  Scope: tb_axis_packet_fifo
+
+formal: expected nonzero exit, actual=1
+8.1. Executing BMUXMAP pass.
+
+8.2. Executing DEMUXMAP pass.
+Creating SMT-LIBv2 representation of module fifo_formal.
+
+End of script. Logfile hash: 24ec2ba7c3, CPU: user 0.17s system 0.00s, MEM: 13.57 MB peak
+Yosys 0.33 (git sha1 2584903a060)
+Time spent: 22% 10x opt_expr (0 sec), 15% 8x opt_clean (0 sec), ...
+##   0:00:00  Checking assertions in step 2..
+##   0:00:00  Checking assumptions in step 3..
+##   0:00:00  Checking assertions in step 3..
+##   0:00:00  Checking assumptions in step 4..
+##   0:00:00  Checking assertions in step 4..
+##   0:00:00  BMC failed!
+##   0:00:00  Assert failed in fifo_formal: formal/fifo_formal.sv:9.51-15.6|rtl/sync_fifo.sv:79.34-80.49|rtl/axis_packet_fifo.sv:21.65-27.6 ($flatten/dut./fifo.$assert$rtl/sync_fifo.sv:79$1174)
+##   0:00:00  Status: FAILED
+base failed; inspect build/formal/base.log

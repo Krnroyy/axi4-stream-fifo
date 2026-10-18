@@ -1,0 +1,38 @@
+PASS depth=1 seed=1 tx=1838 rx=1837 discarded=1
+COVER full=3084 empty=1941 stalls=1247 simultaneous=0 packets=407 partial=310 reset_nonempty=1 wraps=1837
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50320000 (1ps)
+PASS depth=1 seed=17 tx=1842 rx=1841 discarded=1
+COVER full=3080 empty=1945 stalls=1239 simultaneous=0 packets=411 partial=318 reset_nonempty=1 wraps=1841
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50320000 (1ps)
+PASS depth=1 seed=2026 tx=1811 rx=1810 discarded=1
+COVER full=3089 empty=1936 stalls=1279 simultaneous=0 packets=384 partial=281 reset_nonempty=1 wraps=1810
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50320000 (1ps)
+PASS depth=3 seed=1 tx=2896 rx=2895 discarded=1
+COVER full=1410 empty=194 stalls=1944 simultaneous=1649 packets=643 partial=484 reset_nonempty=1 wraps=965
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50400000 (1ps)
+PASS depth=3 seed=17 tx=2897 rx=2896 discarded=1
+COVER full=1427 empty=208 stalls=1926 simultaneous=1653 packets=637 partial=493 reset_nonempty=1 wraps=965
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50370000 (1ps)
+PASS depth=3 seed=2026 tx=2856 rx=2855 discarded=1
+COVER full=1440 empty=201 stalls=1974 simultaneous=1621 packets=649 partial=483 reset_nonempty=1 wraps=951
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50370000 (1ps)
+PASS depth=4 seed=1 tx=2988 rx=2987 discarded=1
+COVER full=1197 empty=103 stalls=1946 simultaneous=1796 packets=668 partial=505 reset_nonempty=1 wraps=746
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50430000 (1ps)
+PASS depth=4 seed=17 tx=2988 rx=2987 discarded=1
+COVER full=1247 empty=108 stalls=1940 simultaneous=1755 packets=674 partial=505 reset_nonempty=1 wraps=746
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50420000 (1ps)
+PASS depth=4 seed=2026 tx=2927 rx=2926 discarded=1
+COVER full=1326 empty=100 stalls=2010 simultaneous=1699 packets=649 partial=480 reset_nonempty=1 wraps=731
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50430000 (1ps)
+VCD info: dumpfile build/fifo.vcd opened for output.
+PASS depth=16 seed=1 tx=3041 rx=3040 discarded=1
+COVER full=1126 empty=16 stalls=2028 simultaneous=1851 packets=696 partial=530 reset_nonempty=1 wraps=190
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50910000 (1ps)
+PASS depth=16 seed=17 tx=3085 rx=3084 discarded=1
+COVER full=1085 empty=15 stalls=1983 simultaneous=1894 packets=689 partial=519 reset_nonempty=1 wraps=192
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50890000 (1ps)
+PASS depth=16 seed=2026 tx=2996 rx=2995 discarded=1
+COVER full=1275 empty=15 stalls=2075 simultaneous=1770 packets=651 partial=487 reset_nonempty=1 wraps=187
+tb/tb_axis_packet_fifo.sv:152: $finish called at 50920000 (1ps)
+REGRESSION PASS: 12 runs
