@@ -79,4 +79,4 @@ bug coverage or full AXI protocol conformance.
 - [Preserved mutation log](../results/mutation.log)
 - [Validation record](../results/VALIDATION.md)
 - [Bug-injection instructions](START_HERE.md#6-make-the-checker-catch-a-bug)
-- [Current CI runs](https://github.com/Krnroyy/axis-packet-fifo/actions)
+- [Current CI runs](https://github.com/Krnroyy/axi4-stream-fifo/actions)

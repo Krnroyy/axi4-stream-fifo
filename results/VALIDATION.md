@@ -51,7 +51,7 @@ The tested direct formal script does not require SymbiYosys.
 
 The FIFO verification workflow completed successfully on GitHub Actions.
 
-- Run: https://github.com/Krnroyy/axis-packet-fifo/actions/runs/39102374693
+- Run: https://github.com/Krnroyy/axi4-stream-fifo/actions/runs/39102374693
 - Tested commit: 8a66ad041e5f0ad6fafd27da51b8614e34e71b84
 - Conclusion: success
 
