@@ -196,3 +196,20 @@ Captured from the depth-16, seed-1 simulation:
 
 This illustrates one backpressure interval. Broader verification
 results and their scope are recorded in `results/VALIDATION.md`.
+
+## AXI4-Lite control/status extension
+
+The AXI4-Stream FIFO still carries packet data. The new AXI4-Lite wrapper adds
+a small register bank for software control and status:
+
+| Address | Register | Meaning |
+|---|---|---|
+| `0x00` | CONTROL | Bit 0 enables the occupancy-threshold interrupt. |
+| `0x04` | STATUS | Bit 0 = empty, bit 1 = full, bit 2 = IRQ. |
+| `0x08` | LEVEL | Current number of queued beats. |
+| `0x0C` | IRQ_THRESHOLD | IRQ asserts when enabled and LEVEL reaches this value. |
+
+Run `python3 scripts/run_axi_lite_control.py` for the wrapper test. The local
+run reported `AXI-LITE CONTROL PASS: 103 checks`. The existing formal harness
+still proves the FIFO properties only; it does not formally prove the new
+AXI-Lite wrapper.
