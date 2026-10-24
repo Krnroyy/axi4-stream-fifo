@@ -213,3 +213,17 @@ Run `python3 scripts/run_axi_lite_control.py` for the wrapper test. The local
 run reported `AXI-LITE CONTROL PASS: 103 checks`. The existing formal harness
 still proves the FIFO properties only; it does not formally prove the new
 AXI-Lite wrapper.
+
+## AXI-Lite wrapper formal checks
+
+Run the wrapper proof after the simulation and FIFO formal checks:
+
+```bash
+python3 scripts/run_axi_lite_formal.py
+```
+
+The runner checks response stability, register behavior, reset, and IRQ logic.
+It requires the property inventory, base checks, induction, and all five
+post-reset cover events to pass. The wrapper proof uses an abstract FIFO
+occupancy model; the FIFO data-path properties are checked separately by
+`python3 scripts/run_formal.py`.
