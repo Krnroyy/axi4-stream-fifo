@@ -16,3 +16,4 @@ jobs:
       - uses: actions/checkout@v5
       - run: sudo apt-get update && sudo apt-get install -y yosys z3
       - run: python3 scripts/run_formal.py
+      - run: python3 scripts/run_axi_lite_formal.py
