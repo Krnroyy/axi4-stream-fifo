@@ -214,4 +214,105 @@ module axi_lite_axis_fifo #(
             end
         end
     end
+
+`ifdef AXI_LITE_FORMAL
+    // Formal-only local properties. The formal harness replaces the stream
+    // FIFO with a bounded occupancy abstraction; the stream FIFO itself is
+    // covered by formal/fifo_formal.sv and its existing runner.
+    reg axi_f_past_valid = 1'b0;
+    always @(posedge aclk) begin
+        axi_f_past_valid <= 1'b1;
+
+        if (axi_f_past_valid && aresetn &&
+            $past(aresetn && s_axi_bvalid && !s_axi_bready)) begin
+            assert(s_axi_bvalid);
+            assert(s_axi_bresp == $past(s_axi_bresp));
+        end
+        if (axi_f_past_valid && aresetn &&
+            $past(aresetn && s_axi_rvalid && !s_axi_rready)) begin
+            assert(s_axi_rvalid);
+            assert(s_axi_rdata == $past(s_axi_rdata));
+            assert(s_axi_rresp == $past(s_axi_rresp));
+        end
+        if (axi_f_past_valid && $past(!aresetn)) begin
+            assert(!s_axi_bvalid);
+            assert(!s_axi_rvalid);
+            assert(!irq_enable);
+            assert(irq_threshold == DEPTH);
+        end
+
+        if (axi_f_past_valid && aresetn) begin
+            assert(irq_threshold >= 1 && irq_threshold <= DEPTH);
+            assert(irq == (irq_enable && (irq_threshold != 0) &&
+                           (fifo_level >= irq_threshold[COUNT_W-1:0])));
+            if (s_axi_bvalid)
+                assert(s_axi_bresp == RESP_OKAY || s_axi_bresp == RESP_SLVERR);
+            if (s_axi_rvalid)
+                assert(s_axi_rresp == RESP_OKAY || s_axi_rresp == RESP_SLVERR);
+        end
+
+        // A completed register write changes only its documented register.
+        if (axi_f_past_valid && aresetn && $past(aresetn && write_commit)) begin
+            if ($past(write_error)) begin
+                assert(irq_enable == $past(irq_enable));
+                assert(irq_threshold == $past(irq_threshold));
+            end else begin
+                case ($past(awaddr_q))
+                    ADDR_CONTROL: begin
+                        if ($past(wstrb_q[0]))
+                            assert(irq_enable == $past(wdata_q[0]));
+                        else
+                            assert(irq_enable == $past(irq_enable));
+                        assert(irq_threshold == $past(irq_threshold));
+                    end
+                    ADDR_THRESHOLD: begin
+                        assert(irq_threshold == $past(threshold_merged));
+                        assert(irq_enable == $past(irq_enable));
+                    end
+                    default: begin
+                        assert(irq_enable == $past(irq_enable));
+                        assert(irq_threshold == $past(irq_threshold));
+                    end
+                endcase
+            end
+        end
+
+        // The read response must snapshot the mapped register at AR handshake.
+        if (axi_f_past_valid && aresetn &&
+            $past(aresetn && s_axi_arvalid && s_axi_arready)) begin
+            assert(s_axi_rvalid);
+            if ($past(s_axi_araddr[1:0] != 0)) begin
+                assert(s_axi_rdata == 0 && s_axi_rresp == RESP_SLVERR);
+            end else begin
+                case ($past(s_axi_araddr))
+                    ADDR_CONTROL: begin
+                        assert(s_axi_rdata == {31'b0, $past(irq_enable)});
+                        assert(s_axi_rresp == RESP_OKAY);
+                    end
+                    ADDR_STATUS: begin
+                        assert(s_axi_rdata == $past(status_word));
+                        assert(s_axi_rresp == RESP_OKAY);
+                    end
+                    ADDR_LEVEL: begin
+                        assert(s_axi_rdata == $past(level_word));
+                        assert(s_axi_rresp == RESP_OKAY);
+                    end
+                    ADDR_THRESHOLD: begin
+                        assert(s_axi_rdata == $past(irq_threshold));
+                        assert(s_axi_rresp == RESP_OKAY);
+                    end
+                    default: begin
+                        assert(s_axi_rdata == 0 && s_axi_rresp == RESP_SLVERR);
+                    end
+                endcase
+            end
+        end
+
+        cover(aw_pending && !w_pending);
+        cover(w_pending && !aw_pending);
+        cover(s_axi_bvalid && !s_axi_bready);
+        cover(s_axi_rvalid && !s_axi_rready);
+        cover(irq);
+    end
+`endif
 endmodule
