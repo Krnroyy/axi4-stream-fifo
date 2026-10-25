@@ -19,7 +19,9 @@ package axis_fifo_uvm_pkg;
   rand bit [3:0] keep;
   rand bit last;
   rand int unsigned gap_cycles;
-  bit is_output, is_stall, is_full;
+  bit is_output, is_stall, is_full, is_cycle_sample;
+  bit input_fire, output_fire, source_stall, sink_stall;
+  bit [2:0] sampled_level;
   constraint c_gap { gap_cycles inside {[0:1]}; }
   `uvm_object_utils_begin(axis_fifo_item)
    `uvm_field_int(data,UVM_ALL_ON)
@@ -113,6 +115,20 @@ package axis_fifo_uvm_pkg;
    forever begin
     @(posedge vif.aclk);
     if(vif.aresetn) begin
+     // One sample per active cycle, avoiding double-counting when both
+     // source and sink handshakes occur on the same clock.
+     if(!is_output) begin
+      tr=axis_fifo_item::type_id::create("cycle_sample");
+      tr.is_cycle_sample=1;
+      tr.sampled_level=vif.level;
+      tr.input_fire=vif.s_axis_tvalid && vif.s_axis_tready;
+      tr.output_fire=vif.m_axis_tvalid && vif.m_axis_tready;
+      tr.source_stall=vif.s_axis_tvalid && !vif.s_axis_tready;
+      tr.sink_stall=vif.m_axis_tvalid && !vif.m_axis_tready;
+      tr.keep=vif.s_axis_tkeep;
+      tr.last=vif.s_axis_tlast;
+      observed_ap.write(tr);
+     end
      if(!is_output && vif.level==4) begin
       tr=axis_fifo_item::type_id::create("full_level");
       tr.is_full=1; observed_ap.write(tr);
@@ -146,11 +162,45 @@ package axis_fifo_uvm_pkg;
   axis_fifo_item expected[$];
   int unsigned input_count,output_count,input_stall_count,output_stall_count,full_count;
   bit saw_full_keep,saw_partial_keep,saw_zero_keep,saw_tlast;
+
+  // Samples every clock from the passive source monitor. This is functional
+  // coverage (scenario bins), separate from the scoreboard's pass/fail checks.
+  covergroup fifo_cg with function sample(
+   bit [2:0] level_sample, bit in_fire, bit out_fire,
+   bit src_stall, bit dst_stall, bit [3:0] keep_sample, bit last_sample);
+   occupancy: coverpoint level_sample {
+    bins empty = {0};
+    bins partially_full = {[1:3]};
+    bins full = {4};
+   }
+   activity: coverpoint {in_fire,out_fire} {
+    bins idle = {2'b00};
+    bins input_only = {2'b10};
+    bins output_only = {2'b01};
+    bins simultaneous = {2'b11};
+   }
+   source_backpressure: coverpoint src_stall { bins no={0}; bins yes={1}; }
+   sink_backpressure: coverpoint dst_stall { bins no={0}; bins yes={1}; }
+   keep_pattern: coverpoint keep_sample {
+    bins no_bytes = {4'h0};
+    bins all_bytes = {4'hf};
+    bins partial = {4'h5,4'ha};
+    bins other = default;
+   }
+   packet_end: coverpoint last_sample { bins body={0}; bins packet_end={1}; }
+  endgroup
+
   function new(string name="axis_fifo_scoreboard",uvm_component parent=null);
    super.new(name,parent); observed_imp=new("observed_imp",this);
+   fifo_cg = new();
   endfunction
   function void write(axis_fifo_item tr);
    axis_fifo_item saved,exp;
+   if(tr.is_cycle_sample) begin
+    fifo_cg.sample(tr.sampled_level,tr.input_fire,tr.output_fire,
+                   tr.source_stall,tr.sink_stall,tr.keep,tr.last);
+    return;
+   end
    if(tr.is_full) begin full_count++; return; end
    if(tr.is_stall) begin
     if(tr.is_output) output_stall_count++;
@@ -247,8 +297,9 @@ package axis_fifo_uvm_pkg;
       env.scoreboard.full_count==0 || !env.scoreboard.saw_full_keep ||
       !env.scoreboard.saw_partial_keep || !env.scoreboard.saw_zero_keep || !env.scoreboard.saw_tlast)
     `uvm_fatal("COVERAGE","FIFO full, source/sink stalls, or TKEEP/TLAST coverage incomplete")
-   `uvm_info("PASS",$sformatf("64 beats checked; full cycles=%0d; source stalls=%0d; sink stalls=%0d; TKEEP/TLAST covered",
-    env.scoreboard.full_count,env.scoreboard.input_stall_count,env.scoreboard.output_stall_count),UVM_NONE)
+   `uvm_info("PASS",$sformatf("64 beats checked; functional coverage=%0.1f%%; full cycles=%0d; source stalls=%0d; sink stalls=%0d",
+    env.scoreboard.fifo_cg.get_coverage(),env.scoreboard.full_count,
+    env.scoreboard.input_stall_count,env.scoreboard.output_stall_count),UVM_NONE)
    phase.drop_objection(this);
   endtask
  endclass
